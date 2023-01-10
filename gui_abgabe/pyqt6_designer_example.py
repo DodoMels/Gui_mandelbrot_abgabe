@@ -8,11 +8,8 @@ from PIL import Image
 import PIL
 import os
 import pathlib
-
-
-
+from pathlib import Path
 from Mandelbrot.run_video import main
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -24,7 +21,7 @@ class MainWindow(QMainWindow):
         # uic.loadUi("gui_data.ui", self)
 
         self.resetValue = False
-        self.saveValue = False
+        self.save_file = False
 
         # Widgets from MainWIndow
         # Wenn der 'pushButton' geklickt wird
@@ -66,17 +63,17 @@ class MainWindow(QMainWindow):
 
 #TODO Aktuellestes bild herausfinden
     def handlesave(self):
-        print('hallo')
+        # get the current path
         path = (pathlib.Path(__file__).parent.absolute())
-        print('path hat ', type(path))
+        """print('path hat ', type(path))
         print(path)
-
-        # creating a image object (main image)
-
-        #im1 = Image.open(r"Mandelbrot\eye0001.png")
-
-        # save a image using extension
-        #im1.save("mandelbrot1.png")
+        print(path.parent)"""
+        # go one level back and change to Mandelbrot
+        new_path = path.parent / 'Mandelbrot'
+        print(new_path)
+        im1 = Image.open(new_path / 'eye0001.png')
+        im1.save("mandelbrot1.png")
+        self.save_file = True
 
 #TODO Fragen wenn bild noch nicht gespeichert ob man es no will
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
@@ -89,6 +86,8 @@ class MainWindow(QMainWindow):
         )
 
         if button == QMessageBox.StandardButton.Yes:
+            if self.save_file:
+                # TODO add a new Window
             a0.accept()
         else:
             a0.ignore()
