@@ -68,9 +68,8 @@ class MainWindow(QMainWindow):
         """print('path hat ', type(path))
         print(path)
         print(path.parent)"""
-        # go one level back and change to Mandelbrot
+        # go one level back an canche 
         new_path = path.parent / 'Mandelbrot'
-        print(new_path)
         im1 = Image.open(new_path / 'eye0001.png')
         im1.save("mandelbrot1.png")
         self.save_file = True
@@ -86,8 +85,6 @@ class MainWindow(QMainWindow):
         )
 
         if button == QMessageBox.StandardButton.Yes:
-            if self.save_file:
-                # TODO add a new Window
             a0.accept()
         else:
             a0.ignore()
