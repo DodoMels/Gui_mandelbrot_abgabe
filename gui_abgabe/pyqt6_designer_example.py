@@ -61,6 +61,7 @@ class MainWindow(QMainWindow):
         self.actionSave_as_png.triggered.connect(self.handlesave)
         self.actionquit.triggered.connect(self.closeEvent)
 
+
 #TODO Aktuellestes bild herausfinden
     def handlesave(self):
         # get the current path
@@ -74,20 +75,25 @@ class MainWindow(QMainWindow):
         im1.save("mandelbrot1.png")
         self.save_file = True
 
-#TODO Fragen wenn bild noch nicht gespeichert ob man es no will
-    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
-        button = QMessageBox.question(
-            self,
-            "Closeing App",
-            "Wollen Sie wirklich das Programm verlassen??",
-            buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            defaultButton=QMessageBox.StandardButton.No,
-        )
 
-        if button == QMessageBox.StandardButton.Yes:
-            a0.accept()
+#TODO Fragen wenn bild noch nicht gespeichert ob man es no will
+
+    def closeEvent(self, event):
+        """Generate 'question' dialog on clicking 'X' button in title bar.
+
+        Reimplement the closeEvent() event handler to include a 'Question'
+        dialog with options on how to proceed - Save, Close, Cancel buttons
+        """
+        reply = QMessageBox.question(
+            self, "Message",
+            "Are you sure you want to quit? Any unsaved work will be lost.",
+            QMessageBox.Save | QMessageBox.Close | QMessageBox.Cancel,
+            QMessageBox.Save)
+
+        if reply == QMessageBox.Close:
+            app.quit()
         else:
-            a0.ignore()
+            pass
 
     def handleClickYes(self):
         self.resetValue = True
