@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.resetValue = False
         self.save_file = False
         self.image_counter = 0
+        self.value_zoom = 1.2
 
         # Widgets from MainWIndow
         # when pushButton is clicked
@@ -58,7 +59,7 @@ class MainWindow(QMainWindow):
 
         # actionSave_as_png
         self.actionSave_as_png.triggered.connect(self.handlesave)
-        self.actionquit.triggered.connect(self.closeEvent)
+        self.actionquit.triggered.connect(self.close)
 
         # update the zoom var
     def update_zoom_var(self):
@@ -81,6 +82,7 @@ class MainWindow(QMainWindow):
         self.save_file = True
         print(self.save_file)
 
+    #"""
     # Close the application and check if the image is already saved otherwise show window with opportunity to save
     def closeEvent(self, event):
         if not self.save_file:              # when image isn't saved
@@ -96,19 +98,18 @@ class MainWindow(QMainWindow):
                 print("ich muss speichern")
                 v = self.handlesave()
             else:
-                pass
+                event.ignore()
+                print('event ignore')
         else:                               # when image is saved
             print("ich habe schon gespeichert")
             reply = QMessageBox.question(
-                self, "Message",
-                "Are you sure you want to quit? Any unsaved work will be lost.",
-                 QMessageBox.Close | QMessageBox.Cancel)
-
+            self, "Message",
+            "Are you sure you want to quit? Any unsaved work will be lost.", QMessageBox.Close | QMessageBox.Cancel)
             if reply == QMessageBox.Close:
                 app.quit()
             else:
-                pass
-
+                event.ignore()
+            #"""
     # reset zoomfaktor window when clicked yes
     def handleClickYes(self):
         self.resetValue = True
